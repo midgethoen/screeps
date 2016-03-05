@@ -35,12 +35,12 @@ module.exports.loop = function () {
 	var profiles = {
 	    'harvester': {
 	        prefix: 'h',
-	        body: [WORK,CARRY,MOVE]
+	        body: [WORK,CARRY, CARRY, CARRY,MOVE]
 
 	    },
 	    'guard': {
 	        prefix: 'g',
-	        body: [TOUGH, ATTACK, MOVE]
+	        body: [TOUGH, RANGE, RANGE, ATTACK, ATTACK, MOVE]
 	    }
 	}
     function create(spawn, profileName){
