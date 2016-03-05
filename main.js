@@ -40,7 +40,7 @@ module.exports.loop = function () {
 	    },
 	    'guard': {
 	        prefix: 'g',
-	        body: [TOUGH, RANGE, RANGE, ATTACK, ATTACK, MOVE]
+	        body: [TOUGH, RANGED_ATTACK, RANGED_ATTACK, MOVE]
 	    }
 	}
     function create(spawn, profileName){
