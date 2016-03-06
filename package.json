@@ -1,0 +1,29 @@
+{
+  "name": "screeps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/midgethoen/screeps.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/midgethoen/screeps/issues"
+  },
+  "homepage": "https://github.com/midgethoen/screeps#readme",
+  "eslintConfig": {
+    "globals": {
+      "Creep": true,
+      "Spawn": true,
+      "Room": true,
+      "Game": true,
+      "RoomPosition": true
+    }
+  }
+}
