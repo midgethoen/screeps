@@ -72,7 +72,7 @@ module.exports.loop = function () {
 	else if (!creepStats.builder){
 	    create(spawn, 'builder')
 	}
-	else if (creepStats.harvester < 16){
+	else if (creepStats.harvester < 20){
 	    create(spawn, 'harvester')
 	}
 	else if (!creepStats.builder < 8){
