@@ -11,7 +11,7 @@ module.exports = function(creep, spawn){
                 creep.moveTo(spawn)
             }
             if (creep.energyAvailable == creep.energyCapacity){
-                creep.memory.task = 'build'
+                delete creep.memory.task
             }
             break;
 
@@ -42,7 +42,11 @@ module.exports = function(creep, spawn){
 
 
         default:
-            creep.memory.task = 'build'
+          if (creep.carry.energy < creep.carryCapacity/2){
+            creep.memory.task = 'refill'
+          } else {
+            creep.memory.task = (Game.tick%3==0) ? 'build':'upgrade_ctl'
+          }
 
     }
 }

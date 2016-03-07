@@ -2,7 +2,7 @@ var tasks = {
     harvester: require('harvest'),
     guard: require('guard'),
 }
-
+var creep = require('creep')
 var R = require('ramda')
 var lowest = R.pipe(
     R.toPairs,
@@ -12,15 +12,19 @@ var lowest = R.pipe(
 )
 
 
+
+
 module.exports.loop = function () {
 
     var creepStats = {}
+    var spawn = Game.spawns.Spawn1
+
 
     // control creeps
 	for(var name in Game.creeps) {
 		var creep = Game.creeps[name];
         var role = creep.memory.role
-        tasks[role](creep)
+        require('creep')(creep, spawn)
 
         if (creepStats[role]) {
             creepStats[role] ++
@@ -38,9 +42,9 @@ module.exports.loop = function () {
 	        body: [WORK,CARRY, CARRY, CARRY,MOVE]
 
 	    },
-	    'guard': {
-	        prefix: 'g',
-	        body: [TOUGH, RANGED_ATTACK, RANGED_ATTACK, MOVE]
+	    'builder': {
+	        prefix: 'b',
+	        body: [WORK,CARRY, CARRY, CARRY,MOVE]
 	    }
 	}
     function create(spawn, profileName){
@@ -65,11 +69,20 @@ module.exports.loop = function () {
 	if (!creepStats.harvester){
 	    create(spawn, 'harvester')
 	}
-	else if (!creepStats.guard){
-	    create(spawn, 'guard')
+	else if (!creepStats.builder){
+	    create(spawn, 'builder')
+	}
+	else if (creepStats.harvester < 16){
+	    create(spawn, 'harvester')
+	}
+	else if (!creepStats.builder < 8){
+	    create(spawn, 'builder')
 	}
 	else {
 	    create(spawn, lowest(creepStats))
+	}
+	if (spawn.room.find(FIND_CONSTRUCTION_SITES).length < 3){
+	    require('roads').planRoads(spawn)
 	}
 
 
