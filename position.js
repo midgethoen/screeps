@@ -19,9 +19,11 @@ function absolute(pos) {
   }
 }
 
-var memSqrt = R.memoize(Math.sqrt)
 function length(p) {
-  return memSqrt(p.x * p.x, p.y * p.y)
+  // Pythagoras wont be accurate here,
+  // considering that diagonal movement is as costly as orthagonal movement,
+  // the longest distance can be considered the total distance... (how weird)
+  return Math.max(Math.abs(p.x), Math.abs(p.y))
 }
 
 exports.absolute = absolute
