@@ -45,7 +45,7 @@ module.exports = function(creep, spawn){
           if (creep.carry.energy < creep.carryCapacity/2){
             creep.memory.task = 'refill'
           } else {
-            creep.memory.task = (Game.tick%3==0) ? 'build':'upgrade_ctl'
+            creep.memory.task = ( Math.ceil(Math.random()+0.5)%2==0) ? 'build':'upgrade_ctl'
           }
 
     }
