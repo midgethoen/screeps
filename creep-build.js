@@ -30,10 +30,10 @@ Creep.prototype.build_worts = function () {
   function evaluateSite(site) {
     var distance = P.difference(site.pos, this.pos)
       , worth = energyLoad / // amount to be gained
-    (
-      energyLoad / this.getBuildCapacity() // harvest time
-      + distance * this.getSpeed() * SITE_DISTANCE_FACTOR //1.1travel time
-    )
+        (
+          energyLoad / this.getBuildCapacity() // harvest time
+          + distance * this.getSpeed() * SITE_DISTANCE_FACTOR //1.1travel time
+        )
     return {
       type,
       worth,

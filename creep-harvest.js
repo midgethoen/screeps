@@ -20,7 +20,10 @@ const SOURCE_DISTANCE_FACTOR = 2
  */
 Creep.prototype.harvest = function (task) {
   const {sourceId} = task
-  var source = R.find(R.propEq('id',sourceId, this.room.find(FIND_SOURCES)))
+  var source = R.find(
+    R.propEq('id',sourceId,
+    this.room.getSources())
+  )
   switch (this.harvest(source)) {
     case OK:
       return
