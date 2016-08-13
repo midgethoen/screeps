@@ -24,4 +24,5 @@ Room.prototype.getSources = function () {
   if (!this._constructionSites) {
     this._constructionSites = this.find(Game.FIND_CONSTRUCTION_SITES)
   }
-  return this.__constructionSites}
+  return this.__constructionSites
+}

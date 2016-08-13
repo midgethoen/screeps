@@ -57,7 +57,7 @@ Creep.prototype.getPrioritizedTask = function () {
   if (!prioritized_task_functions) {
     prioritized_task_functions =
       Object.keys(this.prototype)
-      .filter(key => /prioritize_[\w_]*/.test(key))
+      .filter((key) => /prioritize_[\w_]*/.test(key))
   }
 
   return prioritized_task_functions.reduce(
@@ -80,7 +80,7 @@ Creep.prototype.getNewTask = function () {
 /**
  * Pick a task from a list of possible tasks
  * 	a single task is picked based on worthyness and some entropy
- * @param  {arry} tasks - Nested array of tasks
+ * @param  {array} tasks - Nested array of tasks
  * @return {Object}       task
  */
 Creep.prototype.pickTask = R.pipe(
