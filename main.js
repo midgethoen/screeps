@@ -1,5 +1,9 @@
 require('creep-behaviour')
 require('creep-build')
+require('creep-stats')
+// require('creep-build')
+// require('creep-build')
+// require('creep-build')
 
 require('room-helpers')
 
