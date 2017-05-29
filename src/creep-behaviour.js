@@ -36,6 +36,7 @@ Creep.prototype.loop = function loop() {
       console.log(`${this.name}'s task ${task.type} failed: ${e.message}`)
       this.removeTask()
       this.say('@%$#!*')
+      throw e
     }
   } else {
     this.say(':(')
