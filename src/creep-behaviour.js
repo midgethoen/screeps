@@ -33,7 +33,7 @@ Creep.prototype.loop = function loop() {
     try {
       this[task.type](task) // perform the task by calling the correponsing method
     } catch (e) {
-      console.log(task.type, 'failed', e.message)
+      console.log(`${this.name}'s task ${task.type} failed: ${e.message}`)
       this.removeTask()
       this.say('@%$#!*')
     }

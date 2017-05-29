@@ -15,7 +15,7 @@ Creep.prototype.upgrade = function upgrade() {
       break
 
     default:
-      throw new Error('Unexpected controller result')
+      throw new Error(`Unexpected controller result ${result}`)
   }
 
   if (this.isEmpty()) {
