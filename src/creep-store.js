@@ -27,11 +27,11 @@ Creep.prototype.store = function store(task) {
 
 Creep.prototype.store_worths = function storeWorths() {
   const spawn = this.room.getSpawn()
-  const energyLoad = this.carry.energy
+  const load = R.sum(R.values(this.carry))
   const distance = P.length(P.subtract(this.pos, spawn.pos))
-  const worth = energyLoad / // amount to be gained
+  const worth = load / // amount to be gained
         (
-          (energyLoad / this.getBuildCapacity()) // harvest time
+          (load / this.getBuildCapacity()) // harvest time
           + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
         )
   return {

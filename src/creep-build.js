@@ -3,9 +3,9 @@ const P = require('./position')
 
 const SITE_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 3
-const type = 'build'
+const type = 'builds'
 
-Creep.prototype.build = function build(task) {
+Creep.prototype.builds = function build(task) {
   const { constructionSiteId } = task
   const site = R.find(
     R.propEq('id', constructionSiteId),
@@ -24,17 +24,17 @@ Creep.prototype.build = function build(task) {
   }
 }
 
-Creep.prototype.build_worths = function buildWorths() {
+Creep.prototype.builds_worths = function buildWorths() {
   const sites = this.room.getConstructionSites()
-  const energyLoad = this.carry.energy
+  const load = R.sum(R.values(this.carry))
 
   const evaluateSite = (site) => {
-    const distance = P.length(site.pos, this.pos)
-    const worth = WORTH_FACTOR * (energyLoad / // amount to be gained
+    const distance = P.length(P.subtract(site.pos, this.pos))
+    const worth = (WORTH_FACTOR * load) / // amount to be gained
         (
-          (energyLoad / this.getBuildCapacity()) // harvest time
+          (load / this.getBuildCapacity()) // harvest time
           + (distance * this.getSpeed() * SITE_DISTANCE_FACTOR) // 1.1travel time
-        ))
+        )
     return {
       debug: {
         load,
@@ -45,7 +45,7 @@ Creep.prototype.build_worths = function buildWorths() {
 
       type,
       worth,
-      sourceId: site.id,
+      constructionSiteId: site.id,
     }
   }
   return sites.map(evaluateSite)

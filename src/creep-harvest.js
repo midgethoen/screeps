@@ -10,7 +10,7 @@ const type = 'harvestEnergy'
  *  find something useful to do which is closer by on average
  * @type {Number}
  */
-const SOURCE_DISTANCE_FACTOR = 2
+const SOURCE_DISTANCE_FACTOR = 0.5
 
 // Creep.prototype.harvest = Creep.prototype.harvest
 /**
@@ -65,8 +65,8 @@ Creep.prototype.harvestEnergy_worths = function () {
     // TODO: account for source availability
     const worth = capacityLeft / // amount to be gained
           (
-            capacityLeft / this.getHarvestCapacity() // harvest time
-            + distance * this.getSpeed() * SOURCE_DISTANCE_FACTOR // travel time
+            (capacityLeft / this.getHarvestCapacity()) // harvest time
+            + (distance * this.getSpeed() * SOURCE_DISTANCE_FACTOR) // travel time
           )
 
     return {
