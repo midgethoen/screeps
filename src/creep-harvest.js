@@ -1,7 +1,8 @@
-var R = require('ramda')
-var P = require('position')
+const R = require('./ramda')
+const P = require('./position')
 
-const type = 'harvest'
+const type = 'harvestEnergy'
+
 /**
  * Factor to increase cost of distance to source with
  *  2 because we generally need to go back from the source..
@@ -11,6 +12,7 @@ const type = 'harvest'
  */
 const SOURCE_DISTANCE_FACTOR = 2
 
+// Creep.prototype.harvest = Creep.prototype.harvest
 /**
  * Perform the harvest task:
  *  1: look for most beneficial place to harvest
@@ -18,23 +20,27 @@ const SOURCE_DISTANCE_FACTOR = 2
  *  3: harvest until full
  * @param task {object} - the task description
  */
-Creep.prototype.harvest = function (task) {
-  const {sourceId} = task
-  var source = R.find(
-    R.propEq('id',sourceId,
-    this.room.getSources())
+Creep.prototype.harvestEnergy = function (task) {
+  const { sourceId } = task
+  const source = R.find(
+    R.propEq('id', sourceId),
+    this.room.getSources()
   )
-  switch (this.harvest(source)) {
+  const res = this.harvest(source)
+  switch (res) {
     case OK:
-      return
+      break
 
     case ERR_NOT_IN_RANGE:
       this.moveTo(source)
-      return
+      break
 
     default:
-      throw new Error('Unexpected harvest result')
+      throw new Error(`Unexpected harvest result: ${res}`)
+  }
 
+  if (this.isFull()) {
+    this.removeTask()
   }
 }
 
@@ -49,16 +55,15 @@ Creep.prototype.harvest = function (task) {
  * @return {number} - Value estimate for performing this task
  *  normalized to value in energy/tick
  */
-Creep.prototype.harvest_worths = function () {
-  var sources = this.room.getSources()
-    , capacity = this.carryCapacity
-    , load = R.sum(R.values(this.carry))
-
-  function evaluateSource(source) {
-    var distance = P.difference(source.pos, this.pos)
-      , capacityLeft = capacity - load
-      //TODO: account for source availability
-      , worth = capacityLeft / // amount to be gained
+Creep.prototype.harvestEnergy_worths = function () {
+  const sources = this.room.getSources()
+  const capacity = this.carryCapacity
+  const load = R.sum(R.values(this.carry))
+  const evaluateSource = (source) => {
+    const distance = P.length(P.subtract(source.pos, this.pos))
+    const capacityLeft = capacity - load
+    // TODO: account for source availability
+    const worth = capacityLeft / // amount to be gained
           (
             capacityLeft / this.getHarvestCapacity() // harvest time
             + distance * this.getSpeed() * SOURCE_DISTANCE_FACTOR // travel time
@@ -67,8 +72,9 @@ Creep.prototype.harvest_worths = function () {
     return {
       type,
       worth,
-      sourceId: source.id
+      sourceId: source.id,
     }
   }
-  return sources.map(evaluateSource)
+  const rv = sources.map(evaluateSource)
+  return rv
 }

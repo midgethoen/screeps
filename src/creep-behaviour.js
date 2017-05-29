@@ -1,4 +1,4 @@
-var R = require('ramda')
+const R = require('./ramda')
 
 /*
 This file implements core behaviour of creep-agents
@@ -27,17 +27,23 @@ every <task> extension should implement the following functions:
  * Main loop function, to be called for each creep
  * determines and executes task, base on collony needs
  */
-Creep.prototype.loop = function () {
-  var task = this.getCurrentTask()
-  if (task){
-    this[task.type](task) // perform the task by calling the correponsing method
+Creep.prototype.loop = function loop() {
+  const task = this.getCurrentTask()
+  if (task) {
+    try {
+      this[task.type](task) // perform the task by calling the correponsing method
+    } catch (e) {
+      console.log(task.type, 'failed', e.message)
+      this.removeTask()
+      this.say('@%$#!*')
+    }
   } else {
     this.say(':(')
   }
 }
 
-Creep.prototype.getCurrentTask = function () {
-  var task = this.getPrioritizedTask()
+Creep.prototype.getCurrentTask = function getCurrentTask() {
+  let task = null // this.getPrioritizedTask()
   if (!task) {
     if (this.memory.task) {
       // get task from memory
@@ -45,35 +51,36 @@ Creep.prototype.getCurrentTask = function () {
     } else {
       // start new task
       task = this.getNewTask()
+      this.say(task.type)
       this.memory.task = task
     }
   }
   return task
 }
 
-var prioritized_task_functions
-Creep.prototype.getPrioritizedTask = function () {
+let prioritizedTaskFunctions
+Creep.prototype.getPrioritizedTask = function getPrioritizedTask() {
   // determine list of prioritize functions for entire class
-  if (!prioritized_task_functions) {
-    prioritized_task_functions =
-      Object.keys(this.prototype)
+  if (!prioritizedTaskFunctions) {
+    prioritizedTaskFunctions =
+      Object.keys(Object.getPrototypeOf(this))
       .filter((key) => /prioritize_[\w_]*/.test(key))
   }
 
-  return prioritized_task_functions.reduce(
-    (task,key) => (task?task:this[key]())
+  return prioritizedTaskFunctions.reduce(
+    (task, key) => (task || this[key]())
   )
 }
 
-var task_worths_functions
-Creep.prototype.getNewTask = function () {
-  if (!task_worths_functions) {
-    task_worths_functions =
-      Object.keys(this.prototype)
+let taskWorthsFunctions
+Creep.prototype.getNewTask = function getNewTask() {
+  if (!taskWorthsFunctions) {
+    taskWorthsFunctions =
+    Object.keys(Object.getPrototypeOf(this))
       .filter(key => /[\w_]_worths*/.test(key))
   }
   return this.pickTask(
-    task_worths_functions.map( k => this[k]() )
+    taskWorthsFunctions.map(k => this[k]())
   )
 }
 
@@ -83,18 +90,25 @@ Creep.prototype.getNewTask = function () {
  * @param  {array} tasks - Nested array of tasks
  * @return {Object}       task
  */
-Creep.prototype.pickTask = R.pipe(
-  R.flatten,
-  R.map(R.over(
-    R.lensProp('worth'), w => w * this.entropy()
-  )),
-  R.reduce(
-    R.maxBy(R.prop('worth')), 0
-  )
-)
+Creep.prototype.pickTask = function (tasks) {
+  return R.pipe(
+    R.flatten,
+    R.map(R.over(
+      R.lensProp('worth'),
+      w => w * this.entropy()
+    )),
+    R.reduce(
+      R.maxBy(R.prop('worth')), { worth: 0 }
+    )
+  )(tasks)
+}
+
+Creep.prototype.removeTask = function removeTask() {
+  this.memory.task = null
+}
 
 Creep.prototype.entropy = function () {
-  return Math.random()*0.4+0.8 // 20% devidation
+  return (Math.random() * 0.4) + 0.8 // 20% devidation
 }
 
 Creep.prototype.getSpawns = function () {

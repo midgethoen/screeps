@@ -1,21 +1,22 @@
-var R = require('ramda')
+const R = require('ramda')
 
-exports.equals = function equals(pos1, pos2){
+exports.equals = function equals(pos1, pos2) {
   return R.equals(pos1, pos2)
 }
 
 function subtract(pos1, pos2) {
+  // console.log(JSON.stringify([pos1, pos2], null, 2))
   return new RoomPosition(
     pos1.x - pos2.x,
     pos1.y - pos2.y,
-    (pos1.room == pos2.room)?pos1.room:undefined
+    (pos1.roomName === pos2.roomName) ? pos1.roomName : null
   )
 }
 
 function absolute(pos) {
   return {
     x: Math.abs(pos.x),
-    y: Math.abs(pos.y)
+    y: Math.abs(pos.y),
   }
 }
 
@@ -29,4 +30,3 @@ function length(p) {
 exports.absolute = absolute
 exports.length = length
 exports.subtract = subtract
-exports.difference = R.pipe(subtract, absolute, length)

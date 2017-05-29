@@ -1,11 +1,11 @@
-var R = require('ramda')
-var P = require('position')
+const R = require('./ramda')
+const P = require('./position')
 
 const SITE_DISTANCE_FACTOR = 1.1
 const type = 'build'
 
-Creep.prototype.build = function (task) {
-  const {constructionSiteId} = task
+Creep.prototype.build = function build(task) {
+  const { constructionSiteId } = task
   const site = R.find(
     R.propEq('id', constructionSiteId),
     this.room.getConstructionSites()
@@ -23,21 +23,21 @@ Creep.prototype.build = function (task) {
   }
 }
 
-Creep.prototype.build_worts = function () {
+Creep.prototype.build_worths = function buildWorths() {
   const sites = this.room.getConstructionSites()
-  , energyLoad = this.carry.energy
+  const energyLoad = this.carry.energy
 
   function evaluateSite(site) {
-    var distance = P.difference(site.pos, this.pos)
-      , worth = energyLoad / // amount to be gained
+    const distance = P.length(site.pos, this.pos)
+    const worth = energyLoad / // amount to be gained
         (
-          energyLoad / this.getBuildCapacity() // harvest time
-          + distance * this.getSpeed() * SITE_DISTANCE_FACTOR //1.1travel time
+          (energyLoad / this.getBuildCapacity()) // harvest time
+          + (distance * this.getSpeed() * SITE_DISTANCE_FACTOR) // 1.1travel time
         )
     return {
       type,
       worth,
-      sourceId: site.id
+      sourceId: site.id,
     }
   }
   return sites.map(evaluateSite)

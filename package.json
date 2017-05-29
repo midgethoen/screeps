@@ -25,5 +25,11 @@
       "Game": true,
       "RoomPosition": true
     }
+  },
+  "devDependencies": {
+    "eslint": "^3.3.0",
+    "eslint-config-midgethoen": "0.0.0",
+    "grunt": "^1.0.1",
+    "grunt-screeps": "^1.2.1"
   }
 }
