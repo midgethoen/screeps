@@ -2,6 +2,7 @@ const R = require('./ramda')
 const P = require('./position')
 
 const SITE_DISTANCE_FACTOR = 1.1
+const WORTH_FACTOR = 3
 const type = 'build'
 
 Creep.prototype.build = function build(task) {
@@ -27,13 +28,13 @@ Creep.prototype.build_worths = function buildWorths() {
   const sites = this.room.getConstructionSites()
   const energyLoad = this.carry.energy
 
-  function evaluateSite(site) {
+  const evaluateSite = (site) => {
     const distance = P.length(site.pos, this.pos)
-    const worth = energyLoad / // amount to be gained
+    const worth = WORTH_FACTOR * (energyLoad / // amount to be gained
         (
           (energyLoad / this.getBuildCapacity()) // harvest time
           + (distance * this.getSpeed() * SITE_DISTANCE_FACTOR) // 1.1travel time
-        )
+        ))
     return {
       type,
       worth,
