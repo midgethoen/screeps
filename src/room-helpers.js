@@ -1,14 +1,14 @@
 Room.prototype.getSpawns = function () {
-  if (this._spawns === undefined) {
-    this._spawns = this.room.find(FIND_MY_SPAWNS)
+  if (!this._spawns) {
+    this._spawns = this.find(FIND_MY_SPAWNS)
   }
   return this._spawns
 }
 
 Room.prototype.getSpawn = function () {
-  if (!this._spawn === undefined) {
+  if (this._spawn === undefined) {
     const spawns = this.getSpawns()
-    this._spawn = (spawns && spawns.length) ? spawns[0] : null
+    this._spawn = spawns[0]
   }
   return this._spawn
 }

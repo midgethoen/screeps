@@ -1,17 +1,13 @@
 const P = require('./position')
 const R = require('./ramda')
 
-const CONTROLLER_DISTANCE_FACTOR = 1.1
+const SPAWN_DISTANCE_FACTOR = 1.1
 const type = 'store'
 
-Creep.prototype.store = function upgrade() {
-  const { spawnId } = task
-  const spawn = R.find(
-    R.propEq('id', spawnId),
-    this.room.getSpawns()
-  )
+Creep.prototype.store = function store(task) {
+  const spawn = this.room.getSpawn()
 
-  const result = this.transfer(spawn)
+  const result = this.transfer(spawn, RESOURCE_ENERGY)
   switch (result) {
     case OK:
       break
@@ -29,18 +25,17 @@ Creep.prototype.store = function upgrade() {
   }
 }
 
-Creep.prototype.upgrade_worths = function upgradeWorths() {
-  const controller = this.room.getController()
+Creep.prototype.store_worths = function storeWorths() {
+  const spawn = this.room.getSpawn()
   const energyLoad = this.carry.energy
-  const distance = P.length(P.subtract(this.pos, controller.pos))
+  const distance = P.length(P.subtract(this.pos, spawn.pos))
   const worth = energyLoad / // amount to be gained
         (
           (energyLoad / this.getBuildCapacity()) // harvest time
-          + (distance * this.getSpeed() * CONTROLLER_DISTANCE_FACTOR)// 1.1travel time
+          + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
         )
   return {
     type,
     worth,
-    sourceId: controller.id,
   }
 }
