@@ -6,7 +6,8 @@ const type = 'upgrade'
 Creep.prototype.upgrade = function upgrade() {
   const controller = this.room.getController()
 
-  switch (this.upgradeController(controller)) {
+  const result = this.upgradeController(controller)
+  switch (result) {
     case OK:
       break
 
