@@ -35,6 +35,12 @@ Creep.prototype.store_worths = function storeWorths() {
           + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
         )
   return {
+    debug: {
+      load,
+      distance,
+      speed: this.getSpeed(),
+      buildCapacity: this.getBuildCapacity(),
+    },
     type,
     worth,
   }

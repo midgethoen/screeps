@@ -80,9 +80,12 @@ Creep.prototype.getNewTask = function getNewTask() {
     Object.keys(Object.getPrototypeOf(this))
       .filter(key => /[\w_]_worths*/.test(key))
   }
-  return this.pickTask(
+  const tasks = R.flatten(
     taskWorthsFunctions.map(k => this[k]())
   )
+  // const t = tasks.map(task => [task.type, task.worth])
+  // console.log(JSON.stringify({ name: this.name, t }, null, 2))
+  return this.pickTask(tasks)
 }
 
 /**
@@ -93,7 +96,6 @@ Creep.prototype.getNewTask = function getNewTask() {
  */
 Creep.prototype.pickTask = function (tasks) {
   return R.pipe(
-    R.flatten,
     R.map(R.over(
       R.lensProp('worth'),
       w => w * this.entropy()

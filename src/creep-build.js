@@ -36,6 +36,13 @@ Creep.prototype.build_worths = function buildWorths() {
           + (distance * this.getSpeed() * SITE_DISTANCE_FACTOR) // 1.1travel time
         ))
     return {
+      debug: {
+        load,
+        distance,
+        speed: this.getSpeed(),
+        buildCapacity: this.getBuildCapacity(),
+      },
+
       type,
       worth,
       sourceId: site.id,

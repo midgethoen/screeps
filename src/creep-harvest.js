@@ -70,6 +70,12 @@ Creep.prototype.harvestEnergy_worths = function () {
           )
 
     return {
+      debug: {
+        load,
+        distance,
+        speed: this.getSpeed(),
+        buildCapacity: this.getBuildCapacity(),
+      },
       type,
       worth,
       sourceId: source.id,
