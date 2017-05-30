@@ -49,3 +49,6 @@ Creep.prototype.getHarvestCapacity = function getHarvestCapacity() {
 Creep.prototype.getBuildCapacity = function getBuildCapacity() {
   return this.getWorkCapacity() * 5
 }
+Creep.prototype.getRepairCapacity = function getBuildCapacity() {
+  return this.getWorkCapacity() * 100
+}
