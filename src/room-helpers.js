@@ -49,7 +49,7 @@ Room.prototype.getExtensions = function () {
 
 Room.prototype.getStructures = function () {
   if (!this._structures) {
-    this._structures = this.find(FIND_MY_STRUCTURES)
+    this._structures = this.find(FIND_STRUCTURES)
   }
   return this._structures
 }
