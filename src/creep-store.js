@@ -5,15 +5,13 @@ const SPAWN_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 3
 const type = 'store'
 
-/*
-
- TODO check if storageStructure is not allready full
-
-*/
-
 Creep.prototype.store = function store(task) {
   const { storageSturctureId } = task
   const storageSturcture = Game.getObjectById(storageSturctureId)
+
+  if (storageSturcture.energy === storageSturcture.energyCapacity) {
+    this.removeTask()
+  }
 
   const result = this.transfer(storageSturcture, RESOURCE_ENERGY)
   switch (result) {
@@ -28,7 +26,7 @@ Creep.prototype.store = function store(task) {
       throw new Error(`Unexpected transfer result ${result}`)
   }
 
-  if (this.isEmpty()) {
+  if (storageSturcture.energy === storageSturcture.energyCapacity || this.isEmpty()) {
     this.removeTask()
   }
 }
