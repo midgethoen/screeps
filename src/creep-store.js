@@ -2,7 +2,14 @@ const P = require('./position')
 const R = require('./ramda')
 
 const SPAWN_DISTANCE_FACTOR = 1.1
+const WORTH_FACTOR = 3
 const type = 'store'
+
+/*
+
+ TODO check if storageStructure is not allready full
+
+*/
 
 Creep.prototype.store = function store(task) {
   const { storageSturctureId } = task
@@ -33,7 +40,7 @@ Creep.prototype.store_worths = function storeWorths() {
   const evaluateStorage = (storageSturcture) => {
     const distance = P.length(P.subtract(this.pos, storageSturcture.pos))
     const tranferable = Math.min(load, storageSturcture.energyCapacity - storageSturcture.energy)
-    const worth = tranferable / // amount to be gained
+    const worth = (WORTH_FACTOR * tranferable) / // amount to be gained
     (
       (tranferable / this.getBuildCapacity()) // harvest time
       + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
