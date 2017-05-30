@@ -36,6 +36,7 @@ Creep.prototype.loop = function loop() {
       console.log(`${this.name}'s task ${task.type} failed: ${e.message}`)
       this.removeTask()
       this.say('@%$#!*')
+      // throw e
     }
   } else {
     this.say(':(')
@@ -83,7 +84,7 @@ Creep.prototype.getNewTask = function getNewTask() {
     taskWorthsFunctions.map(k => this[k]())
   )
   // const t = tasks.map(task => [task.type, task.worth])
-  // console.log(JSON.stringify({ name: this.name, t }, null, 2))
+  // log({ name: this.name, t })
   return this.pickTask(tasks)
 }
 
