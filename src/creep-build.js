@@ -7,20 +7,28 @@ const type = 'builds'
 
 Creep.prototype.builds = function build(task) {
   const { constructionSiteId } = task
+  // TODO optimize
   const site = R.find(
     R.propEq('id', constructionSiteId),
     this.room.getConstructionSites()
   )
-  switch (this.build(site)) {
+  if (!site) {
+    return this.removeTask()
+  }
+  const result = this.build(site)
+  switch (result) {
     case OK:
-      return
+      break
 
     case ERR_NOT_IN_RANGE:
       this.moveTo(site)
-      return
+      break
 
     default:
-      throw new Error('Unexpected build result')
+      throw new Error(`Unexpected build result ${result}`)
+  }
+  if (this.isEmpty()) {
+    this.removeTask()
   }
 }
 
