@@ -52,7 +52,9 @@ module.exports.loop = function loop() {
     }
   })
 
-  creepList.map((creep) => {
-    creep.loop()
-  })
+  creepList
+    .filter(c => !c.spawning)
+    .forEach((creep) => {
+      creep.loop()
+    })
 }
