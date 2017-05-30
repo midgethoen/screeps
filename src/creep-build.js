@@ -1,5 +1,6 @@
 const R = require('./ramda')
 const P = require('./position')
+const REVERSE_STATUSES = require('./reverseStatuses')
 
 const SITE_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 1
@@ -25,7 +26,7 @@ Creep.prototype.builds = function build(task) {
       break
 
     default:
-      throw new Error(`Unexpected build result ${result}`)
+      throw new Error(`Unexpected build result ${REVERSE_STATUSES[result]}`)
   }
   if (this.isEmpty()) {
     this.removeTask()

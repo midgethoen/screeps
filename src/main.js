@@ -11,6 +11,8 @@ require('./creep-repair')
 
 require('./room-helpers')
 
+const REVERSE_STATUSES = require('./reverseStatuses')
+
 global.log = (arg) => console.log(JSON.stringify(arg, null, 2))
 
 module.exports.loop = function loop() {
@@ -44,7 +46,7 @@ module.exports.loop = function loop() {
         }
         const result = spawn.createCreep(body)
         if (result !== OK) {
-          console.log(`Error creating creep: ${result}`)
+          console.log(`Error creating creep: ${REVERSE_STATUSES[result]}`)
         }
       }
     }

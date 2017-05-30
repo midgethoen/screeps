@@ -1,5 +1,6 @@
 const R = require('./ramda')
 const P = require('./position')
+const REVERSE_STATUSES = require('./reverseStatuses')
 
 const type = 'harvestEnergy'
 
@@ -36,7 +37,7 @@ Creep.prototype.harvestEnergy = function (task) {
       break
 
     default:
-      throw new Error(`Unexpected harvest result: ${res}`)
+      throw new Error(`Unexpected harvest result: ${REVERSE_STATUSES[res]}`)
   }
 
   if (this.isFull()) {

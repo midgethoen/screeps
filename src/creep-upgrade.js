@@ -1,4 +1,5 @@
 const P = require('./position')
+const REVERSE_STATUSES = require('./reverseStatuses')
 
 const CONTROLLER_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 0.5
@@ -17,7 +18,7 @@ Creep.prototype.upgrade = function upgrade() {
       break
 
     default:
-      throw new Error(`Unexpected controller result ${result}`)
+      throw new Error(`Unexpected controller result ${REVERSE_STATUSES[result]}`)
   }
 
   if (this.isEmpty()) {

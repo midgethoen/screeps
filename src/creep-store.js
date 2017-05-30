@@ -1,5 +1,6 @@
 const P = require('./position')
 const R = require('./ramda')
+const REVERSE_STATUSES = require('./reverseStatuses')
 
 const SPAWN_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 3
@@ -23,7 +24,7 @@ Creep.prototype.store = function store(task) {
       break
 
     default:
-      throw new Error(`Unexpected transfer result ${result}`)
+      throw new Error(`Unexpected transfer result ${REVERSE_STATUSES[result]}`)
   }
 
   if (storageSturcture.energy === storageSturcture.energyCapacity || this.isEmpty()) {
