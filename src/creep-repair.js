@@ -2,11 +2,16 @@ const P = require('./position')
 const R = require('./ramda')
 
 const SPAWN_DISTANCE_FACTOR = 1.1
+const WORTH_FACTOR = 1
 const type = 'repairs'
 
 Creep.prototype.repairs = function store(task) {
   const { structureId } = task
   const structure = Game.getObjectById(structureId)
+
+  if (structure.hits === structure.hitsMax) {
+    this.removeTask()
+  }
 
   const result = this.repair(structure, RESOURCE_ENERGY)
   switch (result) {
@@ -21,7 +26,7 @@ Creep.prototype.repairs = function store(task) {
       throw new Error(`Unexpected transfer result ${result}`)
   }
 
-  if (this.isEmpty()) {
+  if (structure.hits === structure.hitsMax || this.isEmpty()) {
     this.removeTask()
   }
 }
@@ -35,7 +40,7 @@ Creep.prototype.repairs_worths = function storeWorths() {
     const tranferable = Math.min(load, (structure.hitsMax - structure.hits) * REPAIR_COST)
     let worth = 0
     if (structure.hits && structure.hitsMax - structure.hits >= 100) {
-      worth = tranferable / // amount to be gained
+      worth = (WORTH_FACTOR * tranferable) / // amount to be gained
       (
         (tranferable / this.getRepairCapacity()) // harvest time
         + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
@@ -44,6 +49,9 @@ Creep.prototype.repairs_worths = function storeWorths() {
     return {
       debug: {
         tranferable,
+        load,
+        hitsMax: structure.hitsMax,
+        hits: structure.hits,
         distance,
         speed: this.getSpeed(),
         buildCapacity: this.getBuildCapacity(),
