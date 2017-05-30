@@ -47,7 +47,7 @@ Creep.prototype.store_worths = function storeWorths() {
       },
       type,
       worth,
-      storageSturctureId,
+      storageSturctureId: storageSturcture.id,
     }
   }
   return [spawn, ...extensions].map(evaluateStorage)
