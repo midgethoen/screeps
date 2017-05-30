@@ -2,7 +2,7 @@ const R = require('./ramda')
 const P = require('./position')
 
 const SITE_DISTANCE_FACTOR = 1.1
-const WORTH_FACTOR = 3
+const WORTH_FACTOR = 1
 const type = 'builds'
 
 Creep.prototype.builds = function build(task) {

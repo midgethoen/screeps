@@ -29,7 +29,20 @@ Room.prototype.getConstructionSites = function () {
 
 Room.prototype.getController = function () {
   if (!this._controller) {
-    this._controller = this.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_CONTROLLER } })[0] || null
+    this._controller = this.find(
+      FIND_STRUCTURES,
+      { filter: { structureType: STRUCTURE_CONTROLLER } }
+    )[0] || null
   }
   return this._controller
+}
+
+Room.prototype.getExtensions = function () {
+  if (!this._extensions) {
+    this._extensions = this.find(
+      FIND_STRUCTURES,
+      { filter: { structureType: STRUCTURE_EXTENSION } }
+    )
+  }
+  return this._extensions
 }

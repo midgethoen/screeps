@@ -1,6 +1,7 @@
 const P = require('./position')
 
 const CONTROLLER_DISTANCE_FACTOR = 1.1
+const WORTH_FACTOR = 1
 const type = 'upgrade'
 
 Creep.prototype.upgrade = function upgrade() {
@@ -28,7 +29,7 @@ Creep.prototype.upgrade_worths = function upgradeWorths() {
   const controller = this.room.getController()
   const energyLoad = this.carry.energy
   const distance = P.length(P.subtract(this.pos, controller.pos))
-  const worth = energyLoad / // amount to be gained
+  const worth = (WORTH_FACTOR * energyLoad) / // amount to be gained
         (
           (energyLoad / this.getBuildCapacity()) // harvest time
           + (distance * this.getSpeed() * CONTROLLER_DISTANCE_FACTOR)// 1.1travel time

@@ -5,15 +5,16 @@ const SPAWN_DISTANCE_FACTOR = 1.1
 const type = 'store'
 
 Creep.prototype.store = function store(task) {
-  const spawn = this.room.getSpawn()
+  const { storageSturctureId } = task
+  const storageSturcture = Game.getObjectById(storageSturctureId)
 
-  const result = this.transfer(spawn, RESOURCE_ENERGY)
+  const result = this.transfer(storageSturcture, RESOURCE_ENERGY)
   switch (result) {
     case OK:
       break
 
     case ERR_NOT_IN_RANGE:
-      this.moveTo(spawn)
+      this.moveTo(storageSturcture)
       break
 
     default:
@@ -27,21 +28,27 @@ Creep.prototype.store = function store(task) {
 
 Creep.prototype.store_worths = function storeWorths() {
   const spawn = this.room.getSpawn()
+  const extensions = this.room.getExtensions()
   const load = R.sum(R.values(this.carry))
-  const distance = P.length(P.subtract(this.pos, spawn.pos))
-  const worth = load / // amount to be gained
-        (
-          (load / this.getBuildCapacity()) // harvest time
-          + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
-        )
-  return {
-    debug: {
-      load,
-      distance,
-      speed: this.getSpeed(),
-      buildCapacity: this.getBuildCapacity(),
-    },
-    type,
-    worth,
+  const evaluateStorage = (storageSturcture) => {
+    const distance = P.length(P.subtract(this.pos, storageSturcture.pos))
+    const tranferable = Math.min(load, storageSturcture.energyCapacity - storageSturcture.energy)
+    const worth = tranferable / // amount to be gained
+    (
+      (tranferable / this.getBuildCapacity()) // harvest time
+      + (distance * this.getSpeed() * SPAWN_DISTANCE_FACTOR)// 1.1travel time
+    )
+    return {
+      debug: {
+        tranferable,
+        distance,
+        speed: this.getSpeed(),
+        buildCapacity: this.getBuildCapacity(),
+      },
+      type,
+      worth,
+      storageSturctureId,
+    }
   }
+  return [spawn, ...extensions].map(evaluateStorage)
 }
