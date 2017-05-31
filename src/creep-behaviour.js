@@ -28,6 +28,9 @@ every <task> extension should implement the following functions:
  * determines and executes task, base on collony needs
  */
 Creep.prototype.loop = function loop() {
+  if (this.memory.manual) {
+    return
+  }
   const task = this.getCurrentTask()
   if (task) {
     try {
