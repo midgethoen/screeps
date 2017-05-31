@@ -35,7 +35,10 @@ Creep.prototype.store = function store(task) {
 
 Creep.prototype.store_worths = function storeWorths() {
   const spawn = this.room.getSpawn()
-  const extensions = this.room.getExtensions()
+  const storageSturctures = [...this.room.getExtensions()]
+  if (spawn) {
+    storageSturctures.push(spawn)
+  }
   const load = R.sum(R.values(this.carry))
   const evaluateStorage = (storageSturcture) => {
     const distance = P.length(P.subtract(this.pos, storageSturcture.pos))
@@ -57,5 +60,5 @@ Creep.prototype.store_worths = function storeWorths() {
       storageSturctureId: storageSturcture.id,
     }
   }
-  return [spawn, ...extensions].map(evaluateStorage)
+  return storageSturctures.map(evaluateStorage)
 }
