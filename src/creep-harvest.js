@@ -43,7 +43,12 @@ Creep.prototype.harvestEnergy = function (task) {
       break
 
     default:
-      throw new Error(`Unexpected harvest result: ${REVERSE_STATUSES[res]}`)
+      const err = new Error(`Unexpected harvest result: ${REVERSE_STATUSES[res]}`)
+      err.debug({
+        source,
+        screep: this,
+      })
+      throw err
   }
 
   if (this.isFull()) {

@@ -12,6 +12,7 @@ Creep.prototype.repairs = function store(task) {
 
   if (structure.hits === structure.hitsMax) {
     this.removeTask()
+    return
   }
 
   const result = this.repair(structure, RESOURCE_ENERGY)

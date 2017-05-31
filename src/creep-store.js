@@ -12,6 +12,7 @@ Creep.prototype.store = function store(task) {
 
   if (storageSturcture.energy === storageSturcture.energyCapacity) {
     this.removeTask()
+    return
   }
 
   const result = this.transfer(storageSturcture, RESOURCE_ENERGY)
