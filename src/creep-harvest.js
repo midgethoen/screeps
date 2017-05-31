@@ -2,7 +2,7 @@ const R = require('./ramda')
 const P = require('./position')
 const REVERSE_STATUSES = require('./reverseStatuses')
 
-const type = 'harvestEnergy'
+const type = 'harvest'
 
 /**
  * Factor to increase cost of distance to source with
@@ -21,7 +21,7 @@ const SOURCE_DISTANCE_FACTOR = 0.5
  *  3: harvest until full
  * @param task {object} - the task description
  */
-Creep.prototype.harvestEnergy = function (task) {
+Creep.prototype.perform_harvest = function (task) {
   const { sourceId } = task
   const source = R.find(
     R.propEq('id', sourceId),
@@ -67,7 +67,7 @@ Creep.prototype.harvestEnergy = function (task) {
  * @return {number} - Value estimate for performing this task
  *  normalized to value in energy/tick
  */
-Creep.prototype.harvestEnergy_worths = function () {
+Creep.prototype.harvest_worths = function () {
   const sources = this.room.getSources()
   const capacity = this.carryCapacity
   const load = R.sum(R.values(this.carry))

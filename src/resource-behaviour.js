@@ -5,7 +5,7 @@ const AVAILABILITY_WINDOW_SIZE = 1000
 
 Source.prototype.loop = function () {
   this.trackAvailability()
-  // console.log(`Source ${this.id} availability is ${this.getAvailability()}`)
+  console.log(`Source ${this.id} availability is ${this.getAvailability()}`)
 }
 
 Source.prototype.trackAvailability = function () {

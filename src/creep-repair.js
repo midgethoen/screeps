@@ -4,9 +4,9 @@ const REVERSE_STATUSES = require('./reverseStatuses')
 
 const SPAWN_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 1
-const type = 'repairs'
+const type = 'repair'
 
-Creep.prototype.repairs = function store(task) {
+Creep.prototype.perform_repair = function store(task) {
   const { structureId } = task
   const structure = Game.getObjectById(structureId)
 
@@ -33,7 +33,7 @@ Creep.prototype.repairs = function store(task) {
   }
 }
 
-Creep.prototype.repairs_worths = function storeWorths() {
+Creep.prototype.repair_worths = function storeWorths() {
   const structures = this.room.getStructures()
   const load = R.sum(R.values(this.carry))
 

@@ -6,7 +6,7 @@ const SPAWN_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 3
 const type = 'store'
 
-Creep.prototype.store = function store(task) {
+Creep.prototype.perform_store = function store(task) {
   const { storageSturctureId } = task
   const storageSturcture = Game.getObjectById(storageSturctureId)
 

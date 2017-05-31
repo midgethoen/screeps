@@ -5,7 +5,7 @@ const CONTROLLER_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 0.5
 const type = 'upgrade'
 
-Creep.prototype.upgrade = function upgrade() {
+Creep.prototype.perform_upgrade = function upgrade() {
   const controller = this.room.getController()
 
   const result = this.upgradeController(controller)

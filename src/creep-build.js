@@ -4,9 +4,9 @@ const REVERSE_STATUSES = require('./reverseStatuses')
 
 const SITE_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 1
-const type = 'builds'
+const type = 'build'
 
-Creep.prototype.builds = function build(task) {
+Creep.prototype.perform_build = function build(task) {
   const { constructionSiteId } = task
   // TODO optimize
   const site = R.find(
