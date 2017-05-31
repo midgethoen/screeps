@@ -74,8 +74,9 @@ Creep.prototype.harvest_worths = function () {
   const evaluateSource = (source) => {
     const distance = P.length(P.subtract(source.pos, this.pos))
     const capacityLeft = capacity - load
+    const availabilityFactor = Math.min(source.getAvailability(), 1)
     // TODO: account for source availability
-    const worth = capacityLeft / // amount to be gained
+    const worth = (availabilityFactor * capacityLeft) / // amount to be gained
           (
             (capacityLeft / this.getHarvestCapacity()) // harvest time
             + (distance * this.getSpeed() * SOURCE_DISTANCE_FACTOR) // travel time
@@ -85,6 +86,7 @@ Creep.prototype.harvest_worths = function () {
       debug: {
         load,
         distance,
+        availabilityFactor,
         speed: this.getSpeed(),
         buildCapacity: this.getBuildCapacity(),
       },
