@@ -27,6 +27,12 @@ Creep.prototype.harvestEnergy = function (task) {
     R.propEq('id', sourceId),
     this.room.getSources()
   )
+
+  if (source.energy === 0) {
+    this.removeTask()
+    return
+  }
+
   const res = this.harvest(source)
   switch (res) {
     case OK:
