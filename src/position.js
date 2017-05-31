@@ -13,6 +13,14 @@ function subtract(pos1, pos2) {
   )
 }
 
+function add(pos1, pos2) {
+  return new RoomPosition(
+    pos1.x + pos2.x,
+    pos1.y + pos2.y,
+    (pos1.roomName === pos2.roomName) ? pos1.roomName : null
+  )
+}
+
 function absolute(pos) {
   return {
     x: Math.abs(pos.x),
@@ -30,3 +38,4 @@ function length(p) {
 exports.absolute = absolute
 exports.length = length
 exports.subtract = subtract
+exports.add = add
