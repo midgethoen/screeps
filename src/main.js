@@ -1,6 +1,7 @@
 const R = require('./ramda')
 
 require('./creep-behaviour')
+require('./resource-behaviour')
 require('./creep-stats')
 
 require('./creep-build')
@@ -11,9 +12,10 @@ require('./creep-repair')
 
 require('./room-helpers')
 
+
 const REVERSE_STATUSES = require('./reverseStatuses')
 
-global.log = (arg) => console.log(JSON.stringify(arg, null, 2))
+global.log = (arg) => console.log(JSON.stringify(arg, null, 2)) // eslint-disable
 
 module.exports.loop = function loop() {
   const creepList = R.values(Game.creeps)
@@ -21,7 +23,7 @@ module.exports.loop = function loop() {
   // build units
   R.values(Game.spawns)
     .filter(s => !s.spawning)
-    .forEach(function (spawn) {
+    .forEach((spawn) => {
       const sources = spawn.room.getSources()
       if (creepList.length < sources.length * 4) { // have not too many?
         const extensions = spawn.room.getExtensions()
@@ -53,4 +55,10 @@ module.exports.loop = function loop() {
     .forEach((creep) => {
       creep.loop()
     })
+
+  R.values(Game.rooms).forEach(room => {
+    room.getSources().forEach(resource => {
+      resource.loop()
+    })
+  })
 }
