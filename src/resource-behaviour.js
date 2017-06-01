@@ -5,7 +5,7 @@ const AVAILABILITY_WINDOW_SIZE = 1000
 
 Source.prototype.loop = function () {
   this.trackAvailability()
-  console.log(`Source ${this.id} availability is ${this.getAvailability()}`)
+  // console.log(`Source ${this.id} availability is ${this.getAvailability()}`)
 }
 
 Source.prototype.trackAvailability = function () {
@@ -20,7 +20,7 @@ Source.prototype.trackAvailability = function () {
   if (!mem.availability) {
     mem.availability = []
   }
-  if (availability.length > AVAILABILITY_WINDOW_SIZE) {
+  while (mem.availability.length >= AVAILABILITY_WINDOW_SIZE) {
     mem.availability.shift()
   }
   mem.availability.push(availability)

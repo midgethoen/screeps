@@ -8,6 +8,28 @@ const type = 'upgrade'
 Creep.prototype.perform_upgrade = function upgrade() {
   const controller = this.room.getController()
 
+  // if too crowded move towards controller
+  // (give other creeps space)
+  const pos = this.pos
+  const distance = P.length(P.absolute(P.subtract(pos, controller.pos)))
+  if (distance === 3) {
+    let directNeighbours = 0
+    const checkNeighbours = (x, y) => {
+      if (this.room.lookAt(pos.x + x, pos.y + y).filter(r => r.type === 'creep').length) {
+        directNeighbours++
+      }
+    }
+    checkNeighbours(-1, 0)
+    checkNeighbours(1, 0)
+    checkNeighbours(0, -1)
+    checkNeighbours(0, 1)
+
+    if (directNeighbours > 1) {
+      this.moveTo(controller)
+      return
+    }
+  }
+
   const result = this.upgradeController(controller)
   switch (result) {
     case OK:
