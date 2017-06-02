@@ -44,10 +44,10 @@ Creep.prototype.perform_harvest = function (task) {
 
     default:
       const err = new Error(`Unexpected harvest result: ${REVERSE_STATUSES[res]}`)
-      err.debug({
+      err.debug = {
         source,
         screep: this,
-      })
+      }
       throw err
   }
 

@@ -33,6 +33,7 @@ module.exports.loop = function loop() {
           const body = []
           let energy = totalEnergy
           let partIdx = 0
+          energy -= BODYPART_COST[ATTACK]
           while (energy >= 50) {
             const part = BODYPARTS_ALL[partIdx % 3] // use only first 3 parts
             const cost = BODYPART_COST[part]
@@ -42,6 +43,7 @@ module.exports.loop = function loop() {
             }
             partIdx++
           }
+          body.push(ATTACK)
           const result = spawn.createCreep(body)
           if (result !== OK) {
             console.log(`Error creating creep: ${REVERSE_STATUSES[result]}`)
