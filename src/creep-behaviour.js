@@ -32,7 +32,7 @@ Creep.prototype.loop = function loop() {
     return
   }
   const task = this.getCurrentTask()
-  if (task) {
+  if (task && task.type) {
     try {
       this[`perform_${task.type}`](task) // perform the task by calling the correponsing method
     } catch (e) {
@@ -45,6 +45,7 @@ Creep.prototype.loop = function loop() {
       // throw e
     }
   } else {
+    this.removeTask()
     this.say(':(')
   }
 }
