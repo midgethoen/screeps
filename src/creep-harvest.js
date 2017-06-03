@@ -71,9 +71,9 @@ Creep.prototype.harvest_worths = function () {
   const sources = this.room.getSources()
   const capacity = this.carryCapacity
   const load = R.sum(R.values(this.carry))
+  const capacityLeft = capacity - load
   const evaluateSource = (source) => {
     const distance = P.length(P.subtract(source.pos, this.pos))
-    const capacityLeft = capacity - load
     const availability = source.getAvailability()
     const availabilityFactor = Math.min(availability, 1)
     const energy = source.energy

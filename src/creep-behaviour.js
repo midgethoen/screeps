@@ -87,11 +87,30 @@ Creep.prototype.getNewTask = function getNewTask() {
     Object.keys(Object.getPrototypeOf(this))
       .filter(key => /[\w_]_worths*/.test(key))
   }
+  const allTasks = []
+  taskWorthsFunctions.forEach(fName => {
+    const tasks = this[fName]()
+    if (!_.isArray(tasks)) { // eslint-disable
+      console.log(`Error: expected ${fName} to return an array`)
+      log(tasks)
+      return
+    }
+    tasks.forEach(task => {
+      if (!task.type) {
+        console.log(`Error: got task without type from ${fName} function, `)
+        log(task)
+        return
+      } else if (task.worth !== 0 && !(task.worth > 0)) {
+        console.log(`Error: got task with invalid worth from ${fName} function, `)
+        log(task)
+        return
+      }
+      allTasks.push(task)
+    })
+  })
   const tasks = R.flatten(
     taskWorthsFunctions.map(k => this[k]())
   )
-  // const t = tasks.map(task => [task.type, task.worth])
-  // log({ name: this.name, t })
   return this.pickTask(tasks)
 }
 
@@ -117,14 +136,14 @@ Creep.prototype.removeTask = function removeTask() {
   this.memory.task = null
 }
 
-Creep.prototype.entropy = function () {
-  return (Math.random() * 0.4) + 0.8 // 20% devidation
-}
-
 Creep.prototype.getSpawns = function () {
   return this.room.getSpawns()
 }
 
 Creep.prototype.getSpawn = function () {
   return this.room.getSpawn()
+}
+
+Creep.prototype.entropy = function () {
+  return (Math.random() * 0.4) + 0.8 // 20% devidation
 }

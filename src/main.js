@@ -9,6 +9,8 @@ require('./creep-harvest')
 require('./creep-upgrade')
 require('./creep-store')
 require('./creep-repair')
+require('./creep-attack')
+require('./creep-scavange')
 
 require('./room-helpers')
 
