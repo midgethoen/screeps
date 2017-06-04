@@ -39,6 +39,10 @@ Creep.prototype.isEmpty = function () {
   return load === 0
 }
 
+Creep.prototype.getCost = function () {
+  return R.sum(this.body.map(part => BODYPART_COST[part.type]))
+}
+
 Creep.prototype.getUpgradeCapacity = Creep.prototype.getWorkCapacity
 Creep.prototype.getRepairCapacity = Creep.prototype.getWorkCapacity
 Creep.prototype.getDismantleCapacity = Creep.prototype.getWorkCapacity
