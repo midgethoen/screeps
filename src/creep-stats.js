@@ -56,3 +56,11 @@ Creep.prototype.getBuildCapacity = function getBuildCapacity() {
 Creep.prototype.getRepairCapacity = function getBuildCapacity() {
   return this.getWorkCapacity() * 100
 }
+
+Creep.prototype.getHealCapacity = function () {
+  return this.getNumberOfBodypartsOfType(HEAL) * HEAL_POWER
+}
+
+Creep.prototype.getNumberOfBodypartsOfType = function (type) {
+  return this.body.filter(b => b.type === type).length
+}

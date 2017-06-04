@@ -28,7 +28,7 @@ Creep.prototype.perform_attack = function (task) {
 }
 
 Creep.prototype.attack_worths = function () {
-  if (this.body.filter(b => b.type === ATTACK).length === 0) {
+  if (this.getNumberOfBodypartsOfType(ATTACK) === 0) {
     return []
   }
   const enemies = this.room.find(FIND_HOSTILE_CREEPS)

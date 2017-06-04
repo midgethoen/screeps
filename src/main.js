@@ -12,12 +12,12 @@ require('./creep-repair')
 require('./creep-attack')
 require('./creep-scavange')
 require('./creep-renew')
+require('./creep-heal')
 
 require('./room-helpers')
 
 /*
  TODO:
-  - heal behaviour
   - scout behaviour
   - room stats storage
   - accurate reverse error lookup
