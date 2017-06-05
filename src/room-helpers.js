@@ -47,6 +47,16 @@ Room.prototype.getExtensions = function () {
   return this._extensions
 }
 
+Room.prototype.getTowers = function () {
+  if (!this._towers) {
+    this._towers = this.find(
+      FIND_STRUCTURES,
+      { filter: { structureType: STRUCTURE_TOWER } }
+    )
+  }
+  return this._towers
+}
+
 Room.prototype.getStructures = function () {
   if (!this._structures) {
     this._structures = this.find(FIND_STRUCTURES)

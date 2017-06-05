@@ -3,7 +3,7 @@ const R = require('./ramda')
 const REVERSE_STATUSES = require('./reverseStatuses')
 
 const SPAWN_DISTANCE_FACTOR = 1.1
-const WORTH_FACTOR = 3
+const WORTH_FACTOR = 4
 const type = 'store'
 
 Creep.prototype.perform_store = function store(task) {
@@ -35,7 +35,7 @@ Creep.prototype.perform_store = function store(task) {
 
 Creep.prototype.store_worths = function storeWorths() {
   const spawn = this.room.getSpawn()
-  const storageSturctures = [...this.room.getExtensions()]
+  const storageSturctures = [...this.room.getExtensions(), ...this.room.getTowers()]
   if (spawn) {
     storageSturctures.push(spawn)
   }
