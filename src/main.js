@@ -37,7 +37,7 @@ module.exports.loop = function loop() {
     .filter(s => !s.spawning)
     .forEach((spawn) => {
       const sources = spawn.room.getSources()
-      if (creepList.length < sources.length * 4) { // have not too many?
+      if (creepList.length < sources.length * 2) { // have not too many?
         const extensions = spawn.room.getExtensions()
         const totalEnergy = R.sum(R.pluck('energy', extensions)) + spawn.energy
         if (totalEnergy >= 300) {
