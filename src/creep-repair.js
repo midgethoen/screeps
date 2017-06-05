@@ -4,13 +4,14 @@ const REVERSE_STATUSES = require('./reverseStatuses')
 
 const SPAWN_DISTANCE_FACTOR = 1.1
 const WORTH_FACTOR = 1
+const HITS_CAP = 5000
 const type = 'repair'
 
 Creep.prototype.perform_repair = function store(task) {
   const { structureId } = task
   const structure = Game.getObjectById(structureId)
 
-  if (structure.hits === structure.hitsMax) {
+  if (structure.hits === structure.hitsMax || structure.hits > HITS_CAP) {
     this.removeTask()
     return
   }
@@ -28,7 +29,7 @@ Creep.prototype.perform_repair = function store(task) {
       throw new Error(`Unexpected transfer result ${REVERSE_STATUSES[result]}`)
   }
 
-  if (structure.hits === structure.hitsMax || this.isEmpty()) {
+  if (structure.hits === structure.hitsMax || this.isEmpty() || structure.hits > HITS_CAP) {
     this.removeTask()
   }
 }
@@ -39,7 +40,11 @@ Creep.prototype.repair_worths = function storeWorths() {
 
   const evaluateStructure = (structure) => {
     const distance = P.length(P.subtract(this.pos, structure.pos))
-    const tranferable = Math.min(load, (structure.hitsMax - structure.hits) * REPAIR_COST)
+    const tranferable = Math.min(
+      load,
+      (structure.hitsMax - structure.hits) * REPAIR_COST,
+      Math.max(0, HITS_CAP - structure.hits) * REPAIR_COST
+    )
     let worth = 0
     if (structure.hits && structure.hitsMax - structure.hits >= 100) {
       worth = (WORTH_FACTOR * tranferable) / // amount to be gained
